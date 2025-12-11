@@ -24,7 +24,6 @@
                         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
                         'fade-up': 'fadeUp 0.5s ease-out forwards',
                         'scale-in': 'scaleIn 0.3s ease-out forwards',
-                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
@@ -52,6 +51,7 @@
     </script>
     
     <style>
+        /* Background Mesh Gradient yang halus */
         body {
             background-color: #f3f4f6;
             background-image: 
@@ -62,6 +62,8 @@
             background-attachment: fixed;
             color: #1e293b;
         }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -72,7 +74,9 @@
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
+
         .btn-press:active { transform: scale(0.97); }
+        
         .stagger-1 { animation-delay: 100ms; }
         .stagger-2 { animation-delay: 200ms; }
         .stagger-3 { animation-delay: 300ms; }
@@ -85,7 +89,7 @@
             RifqyExif<span class="text-indigo-300">CleanPro</span>
         </h1>
         <p class="text-indigo-100 text-opacity-80 text-sm md:text-lg font-light">
-            Cek lokasi tersembunyi, lalu musnahkan.
+            Sanitasi metadata foto Anda. Cepat, Aman, Gratis.
         </p>
     </div>
 
@@ -93,26 +97,39 @@
         
         <div id="stateUpload" class="absolute inset-0 flex flex-col p-8 transition-all duration-500 z-10">
             <div id="dropZone" class="flex-1 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer group hover:border-indigo-500 hover:bg-indigo-50/30 transition-all duration-300 relative overflow-hidden">
+                
                 <div class="absolute inset-0 bg-indigo-500 opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+
                 <div class="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 animate-float z-10">
                     <i class="ph-fill ph-images text-4xl text-indigo-600"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-700 group-hover:text-indigo-700 transition-colors">Upload Foto JPG</h3>
-                <p class="text-slate-400 text-sm mt-2 text-center px-4">Tarik file ke sini atau klik<br><span class="text-xs opacity-70">(Format JPEG/JPG)</span></p>
+                
+                <h3 class="text-xl font-bold text-slate-700 group-hover:text-indigo-700 transition-colors">
+                    Upload Foto JPG
+                </h3>
+                <p class="text-slate-400 text-sm mt-2 text-center px-4">
+                    Tarik file ke sini atau klik untuk mencari<br>
+                    <span class="text-xs opacity-70">(Mendukung format JPEG/JPG)</span>
+                </p>
             </div>
             <input type="file" id="fileInput" accept="image/jpeg, image/jpg" class="hidden">
         </div>
 
         <div id="stateReview" class="absolute inset-0 bg-white flex flex-col p-0 opacity-0 pointer-events-none transform translate-y-10 transition-all duration-500 z-20">
+            
             <div class="relative h-48 w-full bg-slate-900 overflow-hidden group">
                 <img id="previewImg" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" alt="Preview">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                     <div class="w-full flex justify-between items-end">
                         <div>
-                            <p class="text-white/60 text-xs font-bold uppercase tracking-wider mb-1">Status Privasi</p>
-                            <h2 id="securityStatusText" class="text-white font-bold text-xl flex items-center gap-2">Menganalisis...</h2>
+                            <p class="text-white/60 text-xs font-bold uppercase tracking-wider mb-1">Status File</p>
+                            <h2 id="securityStatusText" class="text-white font-bold text-xl flex items-center gap-2">
+                                Menganalisis...
+                            </h2>
                         </div>
-                        <button onclick="location.reload()" class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full backdrop-blur-sm transition-all btn-press" title="Batal"><i class="ph-bold ph-x"></i></button>
+                        <button onclick="location.reload()" class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full backdrop-blur-sm transition-all btn-press" title="Batal">
+                            <i class="ph-bold ph-x"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -125,9 +142,8 @@
                             <i class="ph-fill ph-map-pin text-xl"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold text-slate-400 uppercase">Lokasi Terdeteksi</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Lokasi GPS</p>
                             <p id="metaGPS" class="font-semibold text-slate-700 truncate">...</p>
-                            <p id="metaCoords" class="text-[10px] text-slate-400 font-mono hidden"></p>
                         </div>
                         <div id="iconGPSStatus"></div>
                     </div>
@@ -137,7 +153,7 @@
                             <i class="ph-fill ph-camera text-xl"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold text-slate-400 uppercase">Perangkat</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Kamera / Device</p>
                             <p id="metaDevice" class="font-semibold text-slate-700 truncate">...</p>
                         </div>
                     </div>
@@ -147,7 +163,7 @@
                             <i class="ph-fill ph-calendar text-xl"></i>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-xs font-bold text-slate-400 uppercase">Tanggal</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Waktu Pengambilan</p>
                             <p id="metaDate" class="font-semibold text-slate-700 truncate">...</p>
                         </div>
                     </div>
@@ -158,40 +174,53 @@
             <div class="p-4 bg-white border-t border-slate-100">
                 <button id="btnClean" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-indigo-200 transition-all btn-press flex items-center justify-center gap-2 group">
                     <i class="ph-bold ph-magic-wand text-xl group-hover:rotate-12 transition-transform"></i>
-                    <span>Hapus Semua Metadata</span>
+                    <span>Bersihkan Metadata</span>
                 </button>
             </div>
         </div>
 
         <div id="stateSuccess" class="absolute inset-0 bg-white flex flex-col items-center justify-center p-8 opacity-0 pointer-events-none transition-all duration-500 z-30">
+            
             <div class="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-6 animate-scale-in">
                 <i class="ph-fill ph-shield-check text-5xl text-emerald-600"></i>
             </div>
-            <h2 class="text-3xl font-bold text-slate-800 mb-2 animate-fade-up stagger-1">Aman & Bersih!</h2>
-            <p class="text-slate-500 text-center mb-8 max-w-xs animate-fade-up stagger-2">Lokasi dan data perangkat telah dihapus permanen.</p>
+            
+            <h2 class="text-3xl font-bold text-slate-800 mb-2 animate-fade-up stagger-1">Selesai!</h2>
+            <p class="text-slate-500 text-center mb-8 max-w-xs animate-fade-up stagger-2">
+                Foto Anda kini bersih, anonim, dan siap dibagikan dengan aman.
+            </p>
+
             <a id="downloadLink" href="#" download="RifqyClean_Image.jpg" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-6 rounded-xl shadow-xl transition-all btn-press flex items-center justify-center gap-2 mb-4 animate-fade-up stagger-3">
                 <i class="ph-bold ph-download-simple"></i> Download Hasil
             </a>
-            <button onclick="location.reload()" class="text-slate-400 hover:text-indigo-600 font-medium text-sm transition-colors animate-fade-up stagger-3">Proses foto lain</button>
+            
+            <button onclick="location.reload()" class="text-slate-400 hover:text-indigo-600 font-medium text-sm transition-colors animate-fade-up stagger-3">
+                Proses foto lainnya
+            </button>
         </div>
+
     </div>
 
-    <footer class="mt-8 text-white/50 text-xs text-center">&copy; 2025 RifqyExifCleanPro. Secure Client-Side Processing.</footer>
+    <footer class="mt-8 text-white/50 text-xs text-center">
+        &copy; 2025 RifqyExifCleanPro. Processing runs 100% in your browser.
+    </footer>
 
     <script>
+        // DOM Elements
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const previewImg = document.getElementById('previewImg');
         const btnClean = document.getElementById('btnClean');
         const downloadLink = document.getElementById('downloadLink');
 
+        // States (Containers)
         const stateUpload = document.getElementById('stateUpload');
         const stateReview = document.getElementById('stateReview');
         const stateSuccess = document.getElementById('stateSuccess');
 
+        // Metadata Elements
         const metaDevice = document.getElementById('metaDevice');
         const metaGPS = document.getElementById('metaGPS');
-        const metaCoords = document.getElementById('metaCoords');
         const metaDate = document.getElementById('metaDate');
         const cardGPS = document.getElementById('cardGPS');
         const iconGPSStatus = document.getElementById('iconGPSStatus');
@@ -199,35 +228,46 @@
 
         let originalDataURL = "";
 
-        // Drag & Drop
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => dropZone.addEventListener(e, (ev) => { ev.preventDefault(); ev.stopPropagation(); }));
+        // --- Drag & Drop Handling ---
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
         ['dragenter', 'dragover'].forEach(() => dropZone.classList.add('border-indigo-500', 'bg-indigo-50'));
         ['dragleave', 'drop'].forEach(() => dropZone.classList.remove('border-indigo-500', 'bg-indigo-50'));
-        dropZone.addEventListener('drop', (e) => handleFiles(e.dataTransfer.files));
+
+        dropZone.addEventListener('drop', handleDrop, false);
         dropZone.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
+        function handleDrop(e) { handleFiles(e.dataTransfer.files); }
+
         function handleFiles(files) {
             const file = files[0];
-            if (!file || !file.type.match('image/jpe?g')) { alert("Hanya format JPG/JPEG."); return; }
+            if (!file) return;
+            if (!file.type.match('image/jpe?g')) {
+                alert("Hanya format JPG/JPEG yang didukung.");
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 originalDataURL = e.target.result;
                 previewImg.src = originalDataURL;
-                stateUpload.style.opacity = '0'; stateUpload.style.pointerEvents = 'none';
-                stateReview.style.opacity = '1'; stateReview.style.pointerEvents = 'auto'; stateReview.style.transform = 'translateY(0)';
+                
+                // Transisi UI
+                stateUpload.style.opacity = '0';
+                stateUpload.style.pointerEvents = 'none';
+                
+                stateReview.style.opacity = '1';
+                stateReview.style.pointerEvents = 'auto';
+                stateReview.style.transform = 'translateY(0)';
+
                 analyzeMetadata(originalDataURL);
             };
             reader.readAsDataURL(file);
-        }
-
-        function dmsToDecimal(dms, ref) {
-            const d = dms[0][0] / dms[0][1];
-            const m = dms[1][0] / dms[1][1];
-            const s = dms[2][0] / dms[2][1];
-            let decimal = d + m / 60 + s / 3600;
-            if (ref === "S" || ref === "W") decimal = decimal * -1;
-            return decimal;
         }
 
         function analyzeMetadata(dataURL) {
@@ -235,61 +275,71 @@
                 const exifObj = piexif.load(dataURL);
                 
                 // 1. Device
-                metaDevice.innerText = exifObj["0th"][piexif.ImageIFD.Model] ? exifObj["0th"][piexif.ImageIFD.Model].replace(/\0/g, '') : "-";
+                let model = exifObj["0th"][piexif.ImageIFD.Model] 
+                    ? exifObj["0th"][piexif.ImageIFD.Model].replace(/\0/g, '') 
+                    : "-";
+                metaDevice.innerText = model;
+
                 // 2. Date
-                metaDate.innerText = exifObj["Exif"][piexif.ExifIFD.DateTimeOriginal] ? exifObj["Exif"][piexif.ExifIFD.DateTimeOriginal] : "-";
+                let date = exifObj["Exif"][piexif.ExifIFD.DateTimeOriginal] 
+                    ? exifObj["Exif"][piexif.ExifIFD.DateTimeOriginal] 
+                    : "-";
+                metaDate.innerText = date;
 
                 // 3. GPS Analysis
-                const gps = exifObj["GPS"];
-                let lat = null, lon = null;
-
-                if (gps && gps[piexif.GPSIFD.GPSLatitude] && gps[piexif.GPSIFD.GPSLongitude]) {
-                    lat = dmsToDecimal(gps[piexif.GPSIFD.GPSLatitude], gps[piexif.GPSIFD.GPSLatitudeRef]);
-                    lon = dmsToDecimal(gps[piexif.GPSIFD.GPSLongitude], gps[piexif.GPSIFD.GPSLongitudeRef]);
+                let hasGPS = false;
+                if (exifObj["GPS"] && Object.keys(exifObj["GPS"]).length > 0) {
+                     if(exifObj["GPS"][piexif.GPSIFD.GPSLatitude]) hasGPS = true;
                 }
 
-                if (lat !== null && lon !== null) {
-                    // Update UI Bahaya
-                    metaGPS.innerHTML = `<span class="text-rose-600 animate-pulse">Melacak lokasi...</span>`;
-                    metaCoords.innerText = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
-                    metaCoords.classList.remove('hidden');
-                    
+                if (hasGPS) {
+                    // Update Text
+                    metaGPS.innerHTML = `<span class="text-rose-600 font-bold">Terdeteksi (Bahaya)</span>`;
                     securityStatusText.innerHTML = `<i class="ph-fill ph-warning-circle text-rose-400"></i> Metadata Ditemukan`;
+                    
+                    // Update Icon
                     iconGPSStatus.innerHTML = `<i class="ph-fill ph-warning text-rose-500 text-2xl animate-pulse"></i>`;
+                    
+                    // Style Card (Shake Effect)
                     cardGPS.classList.add('animate-shake', 'border-rose-200', 'bg-rose-50');
-
-                    // REVERSE GEOCODING (Cari Nama Kota)
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            let locName = data.address.city || data.address.town || data.address.village || data.address.county || "Lokasi Terpencil";
-                            let country = data.address.country || "";
-                            metaGPS.innerHTML = `<span class="text-rose-700 font-bold">${locName}, ${country}</span>`;
-                        })
-                        .catch(() => {
-                            metaGPS.innerHTML = `<span class="text-rose-700 font-bold">Koordinat Ditemukan (Offline)</span>`;
-                        });
-
+                    
                 } else {
-                    metaGPS.innerHTML = `<span class="text-emerald-600 font-bold">Aman (Tidak ada data)</span>`;
+                    metaGPS.innerHTML = `<span class="text-emerald-600 font-bold">Aman</span>`;
                     securityStatusText.innerHTML = `<i class="ph-fill ph-check-circle text-emerald-400"></i> File Relatif Aman`;
                     iconGPSStatus.innerHTML = `<i class="ph-fill ph-check text-emerald-500 text-2xl"></i>`;
+                    
+                    // Remove Warning Styles
                     cardGPS.classList.remove('animate-shake', 'border-rose-200', 'bg-rose-50');
-                    metaCoords.classList.add('hidden');
                 }
-            } catch (err) { console.log(err); }
+
+            } catch (err) {
+                console.log(err);
+            }
         }
 
         btnClean.addEventListener('click', () => {
-            const btnOriginal = btnClean.innerHTML;
-            btnClean.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-xl"></i> Membersihkan...`;
-            setTimeout(() => {
-                const cleanDataURL = piexif.remove(originalDataURL);
-                downloadLink.href = cleanDataURL;
-                stateReview.style.opacity = '0'; stateReview.style.pointerEvents = 'none'; stateReview.style.transform = 'translateY(-20px)';
-                stateSuccess.style.opacity = '1'; stateSuccess.style.pointerEvents = 'auto';
-                btnClean.innerHTML = btnOriginal;
-            }, 800);
+            try {
+                // Simulasikan loading sejenak untuk efek dramatis
+                const btnOriginalText = btnClean.innerHTML;
+                btnClean.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-xl"></i> Membersihkan...`;
+                
+                setTimeout(() => {
+                    // Remove Metadata
+                    const cleanDataURL = piexif.remove(originalDataURL);
+                    downloadLink.href = cleanDataURL;
+
+                    // Transition to Success
+                    stateReview.style.opacity = '0';
+                    stateReview.style.pointerEvents = 'none';
+                    stateReview.style.transform = 'translateY(-20px)';
+
+                    stateSuccess.style.opacity = '1';
+                    stateSuccess.style.pointerEvents = 'auto';
+                }, 800); // Delay 800ms
+                
+            } catch (err) {
+                alert("Gagal: " + err);
+            }
         });
     </script>
 </body>
